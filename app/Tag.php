@@ -4,9 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Tag extends Model
 {
-
     /**
      * The attributes that are mass assignable.
      *
@@ -14,10 +13,9 @@ class Product extends Model
      */
     protected $fillable = [
         'name',
-        'description',
     ];
 
-    public function tags(){
-        return $this->belongsToMany(Tag::class);
+    public function products(){
+        return $this->belongsToMany(Product::class);
     }
 }

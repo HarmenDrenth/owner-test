@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index');
-Route::get('/products', 'ProductController@index');
-Route::post('/products/new', 'ProductController@new');
-Route::post('/products/delete', 'ProductController@delete');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::post('/products/new', [ProductController::class, 'new'])->name('products.new');
+Route::post('/products/delete', [ProductController::class, 'delete'])->name('products.delete');
