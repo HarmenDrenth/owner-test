@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\NewProductPostRequest;
+use App\Http\Requests\DeleteProductPostRequest;
+use App\Service\Product\ProductService;
+
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -14,17 +17,25 @@ class ProductController extends Controller
         return view('products.index');
     }
 
-    public function new(Request $request)
+    public function new(NewProductPostRequest $request)
     {
-        DB::insert("INSERT INTO products (name) VALUES ('".$request->name."')");
+        $query = (new ProductService())->handleNewProduct($request);
 
-        return redirect('/products')->with('status', 'Product saved');
+        if($query){
+            return back()->with('status', 'Product saved');
+        }else{
+            return back()->with('status', 'Something went wrong');
+        }
     }
 
-    public function delete(Request $request)
+    public function delete(DeleteProductPostRequest $request)
     {
-        DB::delete("DELETE FROM products WHERE id = ".$request->id);
+        $query = (new ProductService())->handleDeleteProduct($request);
 
-        return redirect('/products')->with('status', 'Product was deleted');
+        if($query){
+            return back()->with('status', 'Product deleted');
+        }else{
+            return back()->with('status', 'Something went wrong');
+        }
     }
 }
